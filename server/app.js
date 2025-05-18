@@ -1,5 +1,6 @@
 import express from "express";
 import { getClosedPRs } from "../github_api/main.js";
+import { createBranch, updateFile } from "../github_api/makePR.js";
 import { parseGitHubUrl } from "./utils.js";
 import { getChangelogText } from "../llm/index.js";
 const app = express();
@@ -31,14 +32,27 @@ app.post("/makeCommit", async (req, res) => {
   //get list of prs
   try {
     const { prList, accessToken, repoUrl } = req.body;
+    const { owner, repo } = parseGitHubUrl(repoUrl);
     if (!Array.isArray(prList)) {
       throw new Error("prs not an array");
     }
     //take list of prs
+    const branchName = "generated-changelog" + String(Math.random());
     let urls = prList.map((pr) => pr.diff_url);
-    let log = await getChangelogText(urls);
-    console.log(log.output);
-
+    let { output } = await getChangelogText(urls);
+    const makeBranchRes = await createBranch({
+      owner,
+      repo,
+      newBranchName: branchName,
+      baseBranch: "main",
+    });
+    const makeCommit = await updateFile(
+      "/change.md",
+      branchName,
+      owner,
+      repo,
+      output
+    );
     //fetch diffs
     // call llm
     // make commit with llm output
