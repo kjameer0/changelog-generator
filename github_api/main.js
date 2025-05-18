@@ -1,9 +1,17 @@
 // Octokit.js
 // https://github.com/octokit/core.js#readme
 import { Octokit, App } from "octokit";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Load .env from project base directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const octokit = new Octokit({
-  auth: "",
+  auth: process.env.GITHUB_API_TOKEN,
 });
 
 async function main() {
