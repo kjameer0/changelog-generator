@@ -14,15 +14,18 @@ const octokit = new Octokit({
   auth: process.env.GITHUB_API_TOKEN,
 });
 
-async function main() {
+export async function getClosedPRs(owner, repo) {
   const res = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
-    owner: "kjameer0",
-    repo: "changelog-generator",
+    owner,
+    repo,
     state: "closed",
     headers: {
       "X-GitHub-Api-Version": "2022-11-28",
     },
   });
-  console.log(res);
+  return res;
 }
-main();
+
+//make new PR
+// Example usage:
+// getClosedPRs("kjameer0", "changelog-generator");
