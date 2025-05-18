@@ -47,7 +47,7 @@ app.post("/makeCommit", async (req, res) => {
       baseBranch: "main",
     });
     const makeCommit = await updateFile(
-      "/change.md",
+      "change.md",
       branchName,
       owner,
       repo,
