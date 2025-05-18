@@ -9,7 +9,7 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const octokit = new Octokit({ auth: process.env.GITHUB_API_TOKEN });
 
-async function createBranch({
+export async function createBranch({
   owner,
   repo,
   newBranchName,
