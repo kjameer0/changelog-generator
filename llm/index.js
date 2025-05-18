@@ -13,8 +13,8 @@ fal.config({
   credentials: process.env.FAL_AI,
 });
 
-async function getChangelogText() {
-  const diff = await getPrDiffs();
+export async function getChangelogText(urls) {
+  const diff = await getPrDiffs(urls);
   if (!diff) {
     return;
   }
@@ -30,8 +30,5 @@ async function getChangelogText() {
     },
   });
 
-  console.log(result.data);
-  console.log(result.requestId);
+  return result.data;
 }
-
-getChangelogText();

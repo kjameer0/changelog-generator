@@ -1,6 +1,7 @@
 import express from "express";
 import { getClosedPRs } from "../github_api/main.js";
 import { parseGitHubUrl } from "./utils.js";
+import { getChangelogText } from "../llm/index.js";
 const app = express();
 
 app.use(express.json({ limit: "100mb" }));
@@ -18,7 +19,7 @@ app.post("/github", async (req, res) => {
     const { owner, repo } = parseGitHubUrl(repoUrl);
     const data = await getClosedPRs(owner, repo, accessToken);
     //send prs back to users
-    console.log("not fail");
+    //console.log("not fail");
     res.json(data);
     return;
   } catch (error) {
@@ -34,6 +35,10 @@ app.post("/makeCommit", async (req, res) => {
       throw new Error("prs not an array");
     }
     //take list of prs
+    let urls = prList.map((pr) => pr.diff_url);
+    let log = await getChangelogText(urls);
+    console.log(log.output);
+
     //fetch diffs
     // call llm
     // make commit with llm output

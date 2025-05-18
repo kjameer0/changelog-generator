@@ -1,14 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-export async function getPrDiffs() {
-  const absolutePath = path.resolve("sample.json");
-  const data = await fs.readFile(absolutePath, "utf8");
-  const res = JSON.parse(data);
-  let urls = res.data.map((pr) => {
-    return pr.diff_url;
-  });
-
+export async function getPrDiffs(urls) {
   const diffs = [];
   for (const diff_url of urls) {
     try {
