@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="mainAppPage">
+    <h1>Name & API</h1>
+       <form action="submit" method="POST" class="formStyle">
+            <div>
+                <label for="personalAccessToken">Personal Access Token: </label>
+                <input type="text" name="personalAccessToken" id="personalAccessToken" required />
+                <label for="githubUrl">Github Url : </label>
+                <input type="text" name="githubUrl" id="githubUrl" required />
+            </div>
+        </form>
+        <button type="submit" id="testButton">Submit</button>
+        <ul>
+            <li class="hiddenListItems"><input type="checkbox" id="item1"> <label for="item1">Apples</label></li>
+            <li><input type="checkbox" id="item2"> <label for="item2">Bananas</label></li>
+            <li><input type="checkbox" id="item3"> <label for="item3">Cherries</label></li>
+        </ul>
+
+    </div>
+    <script type="text/javascript" src="index.js"></script>
+</body>
+</html>

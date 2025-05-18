@@ -1,0 +1,29 @@
+h1 {
+    color: blue; 
+    font-size: 30px;
+    text-align: center;
+}
+
+.mainAppPage {
+    display: grid;
+    text-align: center;
+    justify-content: center;
+    
+}
+/*
+.formStyle {
+
+}*/
+.mainAppPage > #testButton {
+    margin-top: 20px;
+    color: blue;
+}
+
+#inputTest {
+    color:red;
+}
+
+.hiddenListItems {
+    display none;
+    list-style: none;
+}
