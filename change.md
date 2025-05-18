@@ -1,0 +1,2 @@
+This commit introduces a changelog generator.  It fetches closed pull requests from a GitHub repository, extracts diffs, and uses an LLM to generate a changelog.  The changelog is then written to a `change.md` file in a newly created branch.  Files `change.md`, `data.json`, `index.html`, `index.js`, and `style.css` were added;  `llm/main.js` was renamed to `llm/index.js`; and `server/app.js` and `parser/index.js` were modified.
+
