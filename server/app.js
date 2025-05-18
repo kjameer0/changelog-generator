@@ -3,7 +3,7 @@ import { getClosedPRs } from "../github_api/main.js";
 import { parseGitHubUrl } from "./utils.js";
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: "100mb" }));
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
@@ -12,11 +12,13 @@ app.post("/github", async (req, res) => {
   try {
     const { accessToken, repoUrl } = req.body;
     if (!accessToken || !repoUrl) {
+      console.log("fail", accessToken);
       return res.status(400).json({ error: "Missing accessToken or repoUrl" });
     }
     const { owner, repo } = parseGitHubUrl(repoUrl);
     const data = await getClosedPRs(owner, repo, accessToken);
     //send prs back to users
+    console.log("not fail");
     res.json(data);
     return;
   } catch (error) {
@@ -35,7 +37,7 @@ app.post("/makeCommit", async (req, res) => {
     //fetch diffs
     // call llm
     // make commit with llm output
-    res.json({ success: true });
+    res.json({ success: true, prList, numberOfPrs: prList.length });
   } catch (error) {
     res.json(error);
   }
