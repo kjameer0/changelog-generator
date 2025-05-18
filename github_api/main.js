@@ -14,7 +14,10 @@ const octokit = new Octokit({
   auth: process.env.GITHUB_API_TOKEN,
 });
 
-export async function getClosedPRs(owner, repo) {
+export async function getClosedPRs(owner, repo, accessToken) {
+  const octokit = new Octokit({
+    auth: accessToken,
+  });
   const res = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
     owner,
     repo,
