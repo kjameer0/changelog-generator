@@ -1,4 +1,5 @@
 import { fal } from "@fal-ai/client";
+import { getPrDiffs } from "../parser/index.js";
 
 import dotenv from "dotenv";
 import path from "path";
@@ -12,17 +13,25 @@ fal.config({
   credentials: process.env.FAL_AI,
 });
 
-const result = await fal.subscribe("fal-ai/any-llm", {
-  input: {
-    prompt: "What is a mile",
-  },
-  logs: true,
-  onQueueUpdate: (update) => {
-    if (update.status === "IN_PROGRESS") {
-      update.logs.map((log) => log.message).forEach(console.log);
-    }
-  },
-});
+async function getChangelogText() {
+  const diff = await getPrDiffs();
+  if (!diff) {
+    return;
+  }
+  const result = await fal.subscribe("fal-ai/any-llm", {
+    input: {
+      prompt: `Given the following git diff that may contain multiple diffs that have been merged provide a changelog of the changes that have been done. Keep response to 50 words or less. Here is the diff: ${diff}`,
+    },
+    logs: true,
+    onQueueUpdate: (update) => {
+      if (update.status === "IN_PROGRESS") {
+        update.logs.map((log) => log.message).forEach(console.log);
+      }
+    },
+  });
 
-console.log(result.data);
-console.log(result.requestId);
+  console.log(result.data);
+  console.log(result.requestId);
+}
+
+getChangelogText();
