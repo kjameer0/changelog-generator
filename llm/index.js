@@ -20,7 +20,7 @@ export async function getChangelogText(urls) {
   }
   const result = await fal.subscribe("fal-ai/any-llm", {
     input: {
-      prompt: `Given the following git diff that may contain multiple diffs that have been merged provide a changelog of the changes that have been done. Keep response to 50 words or less. Here is the diff: ${diff}`,
+      prompt: `Given the following git diff that may contain multiple diffs that have been merged provide a changelog of the changes that have been done. Keep response to 100 words or less. Here is the diff: ${diff}`,
     },
     logs: true,
     onQueueUpdate: (update) => {
