@@ -41,7 +41,7 @@ async function createBranch({
   }
 }
 
-async function updateFile(path, branchName, owner, repo, newContent) {
+export async function updateFile(path, branchName, owner, repo, newContent) {
   let oldContent = "";
   let fileInfo = null;
   try {
@@ -73,7 +73,7 @@ async function updateFile(path, branchName, owner, repo, newContent) {
   });
 }
 
-const b = "test5340";
+// const b = "test5340";
 // createBranch({
 //   owner: "kjameer0",
 //   repo: "changelog-generator",
@@ -82,4 +82,4 @@ const b = "test5340";
 // }).then(async (e) => {
 //   await updateFile("change1.md", b, "kjameer0", "changelog-generator", "hello");
 // });
-updateFile("change1.md", b, "kjameer0", "changelog-generator", "hello");
+// updateFile("change1.md", b, "kjameer0", "changelog-generator", "hello");
