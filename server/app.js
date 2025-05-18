@@ -27,7 +27,7 @@ app.post("/github", async (req, res) => {
 app.post("/makeCommit", async (req, res) => {
   //get list of prs
   try {
-    const { prList } = req.body;
+    const { prList, accessToken, repoUrl } = req.body;
     if (!Array.isArray(prList)) {
       throw new Error("prs not an array");
     }
