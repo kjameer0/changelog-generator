@@ -1,28 +1,31 @@
-async function getClosedPRs(repoName, token) {
-  const url = `https://api.github.com/repos/${repoName}/pulls?state=closed&per_page=100`;
+// Octokit.js
+// https://github.com/octokit/core.js#readme
+import { Octokit, App } from "octokit";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
-  const response = await fetch(url, {
+// Load .env from project base directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
+
+const octokit = new Octokit({
+  auth: process.env.GITHUB_API_TOKEN,
+});
+
+export async function getClosedPRs(owner, repo) {
+  const res = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
+    owner,
+    repo,
+    state: "closed",
     headers: {
-      Authorization: `token ${token}`,
-      Accept: "application/vnd.github.v3+json",
+      "X-GitHub-Api-Version": "2022-11-28",
     },
   });
-
-  if (!response.ok) {
-    throw new Error(
-      `GitHub API error: ${response.status} ${response.statusText}`
-    );
-  }
-
-  const pullRequests = await response.json();
-  return pullRequests.map((pr) => ({
-    number: pr.number,
-    title: pr.title,
-    user: pr.user.login,
-    closed_at: pr.closed_at,
-    merged: pr.merged_at !== null,
-  }));
+  return res;
 }
-getClosedPRs("octocat/Hello-World", "token")
-  .then((prs) => console.log(prs))
-  .catch((error) => console.error(error));
+
+//make new PR
+// Example usage:
+// getClosedPRs("kjameer0", "changelog-generator");
